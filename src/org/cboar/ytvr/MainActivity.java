@@ -15,11 +15,11 @@ import javax.microedition.khronos.egl.EGLConfig;
 
 public class MainActivity extends CardboardActivity implements CardboardView.StereoRenderer {
 
-	private GLObject floor;
+	private GLObject floor, screen;
 	private GLContext ctx;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
@@ -29,38 +29,34 @@ public class MainActivity extends CardboardActivity implements CardboardView.Ste
 		setCardboardView(cardboardView);
 	}
 	@Override
-	public void onSurfaceCreated(EGLConfig config) {
+	public void onSurfaceCreated(EGLConfig config){
 		GLES20.glClearColor(0.1f, 0.1f, 0.1f, 0.5f);
 
 		ctx = new GLContext(this);
-		floor = new GLObject(ctx.program, new float[]{
-				200f, 0, -200f, -200f, 0, -200f,
-				-200f, 0, 200f, 200f, 0, -200f,
-				-200f, 0, 200f, 200f, 0, 200f
-			}, new float[]{
-				0.0f, 0.4f, 0.9f, 1.0f,
-				0.0f, 0.4f, 0.9f, 1.0f,
-				0.0f, 0.4f, 0.9f, 1.0f,
-				0.0f, 0.4f, 0.9f, 1.0f,
-				0.0f, 0.4f, 0.9f, 1.0f,
-				0.0f, 0.4f, 0.9f, 1.0f
-			});
+		floor = new GLObject(ctx.program,
+				GLGen.rect(100, 100), GLGen.color(0, 1, 0, 6));
 		floor.translate(0, -20.0f, 0);
+
+		screen = new GLObject(ctx.program,
+				GLGen.rect(19.2f, 10.8f), GLGen.color(1, 1, 1, 6));
+		screen.translate(0, -8f, 40.0f);
+		screen.rotate(90, 0, 0);
 	}
 	@Override
-	public void onNewFrame(HeadTransform head) {
+	public void onNewFrame(HeadTransform head){
 		ctx.updateCamera(head);
 	}
 	@Override
-	public void onDrawEye(Eye eye) {
+	public void onDrawEye(Eye eye){
 		GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
 		ctx.setupEyeDraw(eye);
 		floor.draw(ctx);
+		screen.draw(ctx);
 	}
 	@Override
-	public void onCardboardTrigger() {
+	public void onCardboardTrigger(){
 	}
 
 	@Override public void onRendererShutdown(){}

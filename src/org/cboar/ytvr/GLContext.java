@@ -27,12 +27,12 @@ public class GLContext {
 		this.modelViewProj = new float[16];
 		this.headView = new float[16];
 
-		int vertexShader = loadGLShader(ctx, GLES20.GL_VERTEX_SHADER, R.raw.light_vertex);
-		int gridShader = loadGLShader(ctx, GLES20.GL_FRAGMENT_SHADER, R.raw.grid_fragment);
+		int vertex = loadGLShader(ctx, GLES20.GL_VERTEX_SHADER, R.raw.vertex);
+		int fragment = loadGLShader(ctx, GLES20.GL_FRAGMENT_SHADER, R.raw.fragment);
 
 		program = GLES20.glCreateProgram();
-		GLES20.glAttachShader(program, vertexShader);
-		GLES20.glAttachShader(program, gridShader);
+		GLES20.glAttachShader(program, vertex);
+		GLES20.glAttachShader(program, fragment);
 		GLES20.glLinkProgram(program);
 	}
 
@@ -44,7 +44,7 @@ public class GLContext {
 	public void setupEyeDraw(Eye eye){
 		GLES20.glUseProgram(program);
 		Matrix.multiplyMM(view, 0, eye.getEyeView(), 0, camera, 0);
-		perspective = eye.getPerspective(0.01f, 100.0f);
+		perspective = eye.getPerspective(0.01f, 300.0f);
 	}
 
 	private static String readInputStream(InputStream inputStream){

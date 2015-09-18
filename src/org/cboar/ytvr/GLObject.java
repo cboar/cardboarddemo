@@ -31,6 +31,8 @@ public class GLObject {
 
 		GLES20.glEnableVertexAttribArray(pPos);
 		GLES20.glEnableVertexAttribArray(pColor);
+
+		Matrix.setIdentityM(model, 0);
 	}
 
 	public void draw(GLContext ctx){
@@ -47,8 +49,13 @@ public class GLObject {
 	}
 
 	public void translate(float x, float y, float z){
-		Matrix.setIdentityM(model, 0);
 		Matrix.translateM(model, 0, x, y, z);
+	}
+
+	public void rotate(float x, float y, float z){
+		Matrix.rotateM(model, 0, x, 1, 0, 0);
+		Matrix.rotateM(model, 0, y, 0, 1, 0);
+		Matrix.rotateM(model, 0, z, 0, 0, 1);
 	}
 
 	private static FloatBuffer bufferFloat(float[] buff){
