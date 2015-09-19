@@ -1,5 +1,8 @@
 package org.cboar.ytvr;
 
+import java.nio.FloatBuffer;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,5 +94,14 @@ public class GLGen {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static FloatBuffer bufferFloat(float[] buff){
+		ByteBuffer bb = ByteBuffer.allocateDirect(buff.length * 4);
+		bb.order(ByteOrder.nativeOrder());
+		FloatBuffer fb = bb.asFloatBuffer();
+		fb.put(buff);
+		fb.position(0);
+		return fb;
 	}
 }

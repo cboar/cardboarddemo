@@ -29,6 +29,8 @@ public class GLContext {
 		GLES20.glAttachShader(program, vertex);
 		GLES20.glAttachShader(program, fragment);
 		GLES20.glLinkProgram(program);
+
+		GLTexture.WHITE = new GLTexture(GLGen.loadTexture(ctx, R.drawable.white), program);
 	}
 
 	public void updateCamera(HeadTransform head){
