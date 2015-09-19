@@ -1,6 +1,7 @@
 package org.cboar.ytvr;
 
 import java.nio.FloatBuffer;
+import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
@@ -52,8 +53,8 @@ public class GLObject {
 		GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
 	}
 
-	public GLObject texture(int handle){
-        this.texture = new GLTexture(handle, program);
+	public GLObject texture(Bitmap bmp){
+        this.texture = new GLTexture(bmp, program);
         return this;
 	}
 

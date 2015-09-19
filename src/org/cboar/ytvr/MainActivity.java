@@ -34,14 +34,13 @@ public class MainActivity extends CardboardActivity implements CardboardView.Ste
 
 		ctx = new GLContext(this);
 
-		floor = new GLObject(ctx.program,
-				GLGen.rect(100, 100), GLGen.color(0.7f, 0.7f, 0.7f, 6));
+		floor = new GLObject(ctx.program, GLGen.rect(100,100), GLGen.color(0.7f,0.7f,0.7f,6));
 		floor.translate(0, -50f, 0).rotate(90, 0, 0);
-		screen = new GLObject(ctx.program,
-				GLGen.rect(19.2f, 10.8f), GLGen.color(0.7f, 0.7f, 0.7f, 6));
-		screen.translate(0, 0, 30f)
+
+		screen = new GLObject(ctx.program, GLGen.rect(19.2f, 4.9f), GLGen.color(1,1,1,6));
+		screen.translate(0, -5f, 25f)
 			.rotate(0, 0, 180)
-			.texture(GLGen.loadTexture(this, R.drawable.wrangler));
+			.texture(GLGen.bmpFromRes(this, R.drawable.keyboard));
 	}
 	@Override
 	public void onNewFrame(HeadTransform head){

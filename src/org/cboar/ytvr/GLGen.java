@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Bitmap;
@@ -36,17 +37,13 @@ public class GLGen {
 		return result;
 	}
 
-	public static int loadTexture(Context ctx, int resID){
+	public static int loadTexture(Bitmap bmp){
 		final int[] handle = new int[1];
 		GLES20.glGenTextures(1, handle, 0);
 
 		if(handle[0] == 0)
 			throw new RuntimeException("Error loading texture.");
 
-		Options options = new Options();
-		options.inScaled = false;
-
-		Bitmap bmp = BitmapFactory.decodeResource(ctx.getResources(), resID, options);
 		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 		GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, handle[0]);
 		GLES20.glTexParameteri(
@@ -60,6 +57,12 @@ public class GLGen {
 		bmp.recycle();
 
 		return handle[0];
+	}
+
+	public static Bitmap bmpFromRes(Context ctx, int resID){
+		Options options = new Options();
+		options.inScaled = false;
+		return BitmapFactory.decodeResource(ctx.getResources(), resID, options);
 	}
 
 	public static int loadShader(Context ctx, int resID, int type) {

@@ -1,6 +1,7 @@
 package org.cboar.ytvr;
 
 import java.nio.FloatBuffer;
+import android.graphics.Bitmap;
 import android.opengl.GLES20;
 
 public class GLTexture {
@@ -10,8 +11,8 @@ public class GLTexture {
 	private FloatBuffer texture;
 	private int pTexture, pTexCoord, pTexData;
 
-	public GLTexture(int handle, int program){
-		this.pTexData = handle;
+	public GLTexture(Bitmap bmp, int program){
+		this.pTexData = GLGen.loadTexture(bmp);
         this.pTexture = GLES20.glGetUniformLocation(program, "u_Texture");
         this.pTexCoord = GLES20.glGetAttribLocation(program, "a_TexCoord");
         this.texture = GLGen.bufferFloat(new float[]{ 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1 });
